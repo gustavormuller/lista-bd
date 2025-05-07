@@ -97,4 +97,23 @@ FROM CLIENTE
 GROUP BY MesAno
 ORDER BY Quantidade DESC;
 
--- 13) 
+-- 13) Liste o valor de frete que cobrado por UF, Cidade e Transportadora nos últimos 2 anos.
+-- Por UF
+SELECT cidade.iduf UF, sum(enc.valorfrete) SOMA_FRETE 
+FROM transportadora trans
+INNER JOIN encomenda enc 
+ON trans.id = enc.idtransportadora
+INNER JOIN cidade 
+ON cidade.id = trans.idcidade
+WHERE enc.datacadastro >= date_sub(now(), interval 2 year)
+GROUP BY cidade.iduf;
+
+-- Por cidade
+SELECT cidade.nome Cidade, sum(enc.valorfrete) SOMA_FRETE 
+FROM transportadora trans
+INNER JOIN encomenda enc 
+ON trans.id = enc.idtransportadora
+INNER JOIN cidade 
+ON cidade.id = trans.idcidade
+WHERE enc.datacadastro >= date_sub(now(), interval 2 year)
+GROUP BY cidade.nome;

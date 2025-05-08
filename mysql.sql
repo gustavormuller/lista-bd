@@ -142,3 +142,6 @@ ON UF.IDREGIAO = REGIAO.ID
 GROUP BY REGIAO.NOME;
 
 -- 15) Liste a idade de cada cliente, ordenando do mais velho para o mais jovem
+SELECT CLIENTE.NOME AS Cliente, TIMESTAMPDIFF(YEAR, CLIENTE.DATANASCIMENTO, CURDATE()) AS Idade
+FROM CLIENTE 
+ORDER BY IDADE DESC;

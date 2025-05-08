@@ -99,21 +99,46 @@ ORDER BY Quantidade DESC;
 
 -- 13) Liste o valor de frete que cobrado por UF, Cidade e Transportadora nos últimos 2 anos.
 -- Por UF
-SELECT cidade.iduf UF, sum(enc.valorfrete) SOMA_FRETE 
-FROM transportadora trans
-INNER JOIN encomenda enc 
-ON trans.id = enc.idtransportadora
-INNER JOIN cidade 
-ON cidade.id = trans.idcidade
-WHERE enc.datacadastro >= date_sub(now(), interval 2 year)
-GROUP BY cidade.iduf;
+SELECT CIDADE.IDUF UF, SUM(ENC.VALORFRETE) SomaFrete 
+FROM TRANSPORTADORA TRANS
+INNER JOIN ENCOMENDA ENC 
+ON TRANS.ID = ENC.IDTRANSPORTADORA
+INNER JOIN CIDADE 
+ON CIDADE.ID = TRANS.IDCIDADE
+WHERE ENC.DATACADASTRO >= DATE_SUB(NOW(), INTERVAL 2 YEAR)
+GROUP BY CIDADE.IDUF;
 
 -- Por cidade
-SELECT cidade.nome Cidade, sum(enc.valorfrete) SOMA_FRETE 
-FROM transportadora trans
-INNER JOIN encomenda enc 
-ON trans.id = enc.idtransportadora
-INNER JOIN cidade 
-ON cidade.id = trans.idcidade
-WHERE enc.datacadastro >= date_sub(now(), interval 2 year)
-GROUP BY cidade.nome;
+SELECT CIDADE.NOME Cidade, SUM(ENC.VALORFRETE) SomaFrete 
+FROM TRANSPORTADORA TRANS
+INNER JOIN ENCOMENDA ENC 
+ON TRANS.ID = ENC.IDTRANSPORTADORA
+INNER JOIN CIDADE 
+ON CIDADE.ID = TRANS.IDCIDADE
+WHERE ENC.DATACADASTRO >= DATE_SUB(NOW(), INTERVAL 2 YEAR)
+GROUP BY CIDADE.NOME;
+
+-- Por transportadora
+SELECT TRANS.NOME Cidade, SUM(ENC.VALORFRETE) SomaFrete 
+FROM TRANSPORTADORA TRANS
+INNER JOIN ENCOMENDA ENC 
+ON TRANS.ID = ENC.IDTRANSPORTADORA
+INNER JOIN CIDADE 
+ON CIDADE.ID = TRANS.IDCIDADE
+WHERE ENC.DATACADASTRO >= DATE_SUB(NOW(), INTERVAL 2 YEAR)
+GROUP BY TRANS.NOME;
+
+-- 14) Liste a quantidade de frete por região
+SELECT REGIAO.NOME, COUNT(ENC.ID) QTDFRETE
+FROM ENCOMENDA ENC
+INNER JOIN CLIENTEENDERECO CLIEND
+ON ENC.IDCLIENTE = CLIEND.IDCLIENTE
+INNER JOIN CIDADE
+ON CLIEND.IDCIDADE = CIDADE.ID
+INNER JOIN UF
+ON CIDADE.IDUF = UF.ID
+INNER JOIN REGIAO
+ON UF.IDREGIAO = REGIAO.ID
+GROUP BY REGIAO.NOME;
+
+-- 15) Liste a idade de cada cliente, ordenando do mais velho para o mais jovem

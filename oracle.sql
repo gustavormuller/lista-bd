@@ -138,7 +138,7 @@ GROUP BY
     PED.DATEMISSAO;
 
 
--- 10) Liste os fornecedores que não fizeram nenhuma compra nos últimos 2 anos
+-- 10) Liste os fornecedores que não fizeram nenhuma venda nos últimos 2 anos
 SELECT FORN.NOMFANTASIA AS Fornecedor, PED.NUMPEDIDO
 FROM GEN_FORNECEDOR FORN
 LEFT JOIN PEDIDOTREINAMENTO PED
@@ -147,7 +147,7 @@ AND PED.DATEMISSAO >= ADD_MONTHS(SYSDATE, -24)
 WHERE PED.NUMPEDIDO IS NULL;
 
 
--- 11) Liste a quantidade de produtos que cada fornecedor comprou
+-- 11) Liste a quantidade de produtos que cada fornecedor vendeu
 SELECT 
     FORN.NOMFANTASIA AS Fornecedor,
     SUM(PEDITEM.QTDPRODUTOPEDIDO) AS QuantidadeProdutos
